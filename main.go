@@ -7,8 +7,8 @@ import (
 
 	"github.com/danyouknowme/ecommerce-api/pkg/app"
 	"github.com/danyouknowme/ecommerce-api/pkg/database"
+	"github.com/danyouknowme/ecommerce-api/pkg/routes"
 	"github.com/danyouknowme/ecommerce-api/pkg/util"
-	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -22,9 +22,7 @@ func main() {
 	dbDriver, dbSource := config.DBDriver, config.DBSource
 	database.ConnectDatabase(dbDriver, dbSource)
 
-	fiberApp.Get("/", func(c *fiber.Ctx) error {
-		panic("This panic is caught by fiber")
-	})
+	routes.SetupRouter(fiberApp)
 
 	port := config.Port
 	log.Printf("Server starting at port %s.", port)
