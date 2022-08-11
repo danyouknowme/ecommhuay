@@ -5,10 +5,10 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/danyouknowme/ecommerce-api/pkg/app"
-	"github.com/danyouknowme/ecommerce-api/pkg/database"
-	"github.com/danyouknowme/ecommerce-api/pkg/routes"
-	"github.com/danyouknowme/ecommerce-api/pkg/util"
+	"github.com/danyouknowme/ecommerce/pkg/app"
+	"github.com/danyouknowme/ecommerce/pkg/database"
+	"github.com/danyouknowme/ecommerce/pkg/routes"
+	"github.com/danyouknowme/ecommerce/pkg/util"
 )
 
 func main() {

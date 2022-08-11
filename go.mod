@@ -1,4 +1,4 @@
-module github.com/danyouknowme/ecommerce-api
+module github.com/danyouknowme/ecommerce
 
 go 1.17
 
