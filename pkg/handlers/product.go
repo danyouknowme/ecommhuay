@@ -8,7 +8,7 @@ import (
 )
 
 func GetAllProductsAPI(ctx *fiber.Ctx) error {
-	log.Println("/api/v1/products")
+	log.Printf("get: /api/v1/products")
 
 	products, err := dbmodels.GetAllProducts()
 	if err != nil {
@@ -28,7 +28,7 @@ func GetProductByIdAPI(ctx *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("/api/v1/products/%d", id)
+	log.Printf("get: /api/v1/products/%d", id)
 
 	product, err := dbmodels.GetProductById(id)
 	if err != nil {
@@ -46,6 +46,8 @@ func AddNewProductAPI(ctx *fiber.Ctx) error {
 		return err
 	}
 
+	log.Printf("post: /api/v1/products")
+
 	err := dbmodels.AddNewProduct(newProduct)
 	if err != nil {
 		return ctx.JSON(fiber.Map{
@@ -55,5 +57,27 @@ func AddNewProductAPI(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(fiber.Map{
 		"message": "Add the new product successfully!",
+	})
+}
+
+func UpdateProductAmountAPI(ctx *fiber.Ctx) error {
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": "Invalid product Id!",
+		})
+	}
+
+	log.Printf("patch: /api/v1/products/%d", id)
+
+	err = dbmodels.UpdateProductAmount(id)
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(fiber.Map{
+		"message": "Update amount product successfully!",
 	})
 }

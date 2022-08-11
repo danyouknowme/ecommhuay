@@ -64,3 +64,21 @@ func AddNewProduct(newProduct Product) error {
 
 	return nil
 }
+
+func UpdateProductAmount(id int) error {
+	db := database.DB
+
+	statementUpdate, err := db.Prepare("UPDATE Products SET Amount = Amount - 1 WHERE Id = ?")
+	if err != nil {
+		return err
+	}
+
+	defer statementUpdate.Close()
+
+	_, err = statementUpdate.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
