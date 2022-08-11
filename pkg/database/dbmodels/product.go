@@ -11,6 +11,7 @@ type Product struct {
 	ImagePath   string  `json:"imagePath"`
 	Category    string  `json:"category"`
 	Price       float64 `json:"price"`
+	Amount      int     `json:"amount"`
 }
 
 func GetAllProducts() ([]Product, error) {
@@ -26,7 +27,7 @@ func GetAllProducts() ([]Product, error) {
 	products := []Product{}
 	for result.Next() {
 		var product Product
-		result.Scan(&product.Id, &product.Title, &product.Description, &product.ImagePath, &product.Category, &product.Price)
+		result.Scan(&product.Id, &product.Title, &product.Description, &product.ImagePath, &product.Category, &product.Price, &product.Amount)
 		products = append(products, product)
 	}
 
@@ -38,7 +39,7 @@ func GetProductById(id int) (Product, error) {
 	var product Product
 
 	result := db.QueryRow("SELECT * FROM Products WHERE id = ?", id)
-	err := result.Scan(&product.Id, &product.Title, &product.Description, &product.ImagePath, &product.Category, &product.Price)
+	err := result.Scan(&product.Id, &product.Title, &product.Description, &product.ImagePath, &product.Category, &product.Price, &product.Amount)
 	if err != nil {
 		return Product{}, err
 	}
@@ -49,19 +50,14 @@ func GetProductById(id int) (Product, error) {
 func AddNewProduct(newProduct Product) error {
 	db := database.DB
 
-	statementInsert, err := db.Prepare("INSERT INTO Products VALUES ( ?, ?, ?, ?, ?, ? )")
+	statementInsert, err := db.Prepare("INSERT INTO Products (Title, Description, ImagePath, Category, Price, Amount) VALUES ( ?, ?, ?, ?, ?, ? )")
 	if err != nil {
 		return err
 	}
 
 	defer statementInsert.Close()
 
-	products, err := GetAllProducts()
-	if err != nil {
-		return err
-	}
-
-	_, err = statementInsert.Exec(len(products)+1, newProduct.Title, newProduct.Description, newProduct.ImagePath, newProduct.Category, newProduct.Price)
+	_, err = statementInsert.Exec(newProduct.Title, newProduct.Description, newProduct.ImagePath, newProduct.Category, newProduct.Price, newProduct.Amount)
 	if err != nil {
 		return err
 	}
