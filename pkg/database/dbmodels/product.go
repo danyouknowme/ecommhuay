@@ -45,3 +45,26 @@ func GetProductById(id int) (Product, error) {
 
 	return product, nil
 }
+
+func AddNewProduct(newProduct Product) error {
+	db := database.DB
+
+	statementInsert, err := db.Prepare("INSERT INTO Products VALUES ( ?, ?, ?, ?, ?, ? )")
+	if err != nil {
+		return err
+	}
+
+	defer statementInsert.Close()
+
+	products, err := GetAllProducts()
+	if err != nil {
+		return err
+	}
+
+	_, err = statementInsert.Exec(len(products)+1, newProduct.Title, newProduct.Description, newProduct.ImagePath, newProduct.Category, newProduct.Price)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
