@@ -12,4 +12,6 @@ func SetupRouter(app *fiber.App) {
 	api.Get("/products/:id", handlers.GetProductByIdAPI)
 	api.Post("/products", handlers.AddNewProductAPI)
 	api.Patch("/products/:id", handlers.UpdateProductAmountAPI)
+
+	api.Post("/users/register", handlers.RegisterAPI)
 }
