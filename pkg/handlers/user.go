@@ -26,3 +26,33 @@ func RegisterAPI(ctx *fiber.Ctx) error {
 		"message": "Create a new user successfully!",
 	})
 }
+
+func LoginAPI(ctx *fiber.Ctx) error {
+	var req dbmodels.LoginRequest
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	log.Printf("post: /api/v1/users/login")
+	user, err := dbmodels.Login(req.Username, req.Password)
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(user)
+}
+
+func GetUserAPI(ctx *fiber.Ctx) error {
+	user, err := dbmodels.GetUser("dannyisadmin")
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(user)
+}
