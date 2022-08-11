@@ -41,14 +41,14 @@ func GetProductByIdAPI(ctx *fiber.Ctx) error {
 }
 
 func AddNewProductAPI(ctx *fiber.Ctx) error {
-	var newProduct dbmodels.Product
-	if err := ctx.BodyParser(&newProduct); err != nil {
+	var req dbmodels.Product
+	if err := ctx.BodyParser(&req); err != nil {
 		return err
 	}
 
 	log.Printf("post: /api/v1/products")
 
-	err := dbmodels.AddNewProduct(newProduct)
+	err := dbmodels.AddNewProduct(req)
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"message": err.Error(),
