@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/danyouknowme/ecommerce/pkg/database"
+	"github.com/danyouknowme/ecommerce/pkg/token"
 	"github.com/danyouknowme/ecommerce/pkg/util"
 )
 
@@ -66,11 +67,16 @@ func Login(username string, password string) (LoginResponse, error) {
 		return LoginResponse{}, fmt.Errorf("password is not match")
 	}
 
+	var accessToken string
+	if accessToken, err = token.CreateToken(user.Username); err != nil {
+		return LoginResponse{}, fmt.Errorf("cannot create a new token")
+	}
+
 	response := LoginResponse{
 		Username: user.Username,
 		FullName: user.FullName,
 		Email:    user.Email,
-		Token:    "abcdefghijklmnopqrstuvwxyz",
+		Token:    accessToken,
 	}
 
 	return response, nil
