@@ -24,7 +24,9 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/google/uuid v1.3.0
 	github.com/klauspost/compress v1.15.0 // indirect
 	github.com/spf13/viper v1.12.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
