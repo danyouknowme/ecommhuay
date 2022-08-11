@@ -1,11 +1,12 @@
 package routes
 
 import (
+	"github.com/danyouknowme/ecommerce/pkg/handlers"
 	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRouter(app *fiber.App) {
-	app.Get("/", func(ctx *fiber.Ctx) error {
-		return ctx.JSON(fiber.Map{"message": "Welcome to Ecommerce api"})
-	})
+	api := app.Group("/api/v1")
+
+	api.Get("/products", handlers.GetAllProductsAPI)
 }
