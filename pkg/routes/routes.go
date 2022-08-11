@@ -9,4 +9,5 @@ func SetupRouter(app *fiber.App) {
 	api := app.Group("/api/v1")
 
 	api.Get("/products", handlers.GetAllProductsAPI)
+	api.Get("/products/:id", handlers.GetProductByIdAPI)
 }

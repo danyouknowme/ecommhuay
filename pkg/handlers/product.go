@@ -9,6 +9,7 @@ import (
 
 func GetAllProductsAPI(ctx *fiber.Ctx) error {
 	log.Println("/api/v1/products")
+
 	products, err := dbmodels.GetAllProducts()
 	if err != nil {
 		return ctx.JSON(fiber.Map{
@@ -17,4 +18,24 @@ func GetAllProductsAPI(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(products)
+}
+
+func GetProductByIdAPI(ctx *fiber.Ctx) error {
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": "Invalid product Id!",
+		})
+	}
+
+	log.Printf("/api/v1/products/%d", id)
+
+	product, err := dbmodels.GetProductById(id)
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.JSON(product)
 }
