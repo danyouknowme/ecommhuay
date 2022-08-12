@@ -1,0 +1,34 @@
+DROP DATABASE IF EXISTS ecommerce;
+
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Users;
+
+CREATE TABLE Products (
+	Id INT NOT NULL AUTO_INCREMENT,
+	Title VARCHAR(255),
+	Description LONGTEXT,
+	ImagePath VARCHAR(255),
+    Category VARCHAR(255),
+	Price FLOAT,
+	Amount INT,
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE Users (
+	Id INT NOT NULL AUTO_INCREMENT,
+	Username VARCHAR(255) UNIQUE,
+	Password VARCHAR(255),
+	FullName VARCHAR(255),	
+	Email VARCHAR(255),
+	IsAdmin BOOLEAN NOT NULL DEFAULT 0,
+	PRIMARY KEY (Id)
+);
+
+INSERT INTO Products(Title, Description, ImagePath, Price, Amount) VALUES ("NEW TITLE 1", "NEW DESCRIPTION 1", "NEW IMAGEPATH 1", 0, 0);
+INSERT INTO Products(Title, Description, ImagePath, Price, Amount) VALUES ("NEW TITLE 2", "NEW DESCRIPTION 2", "NEW IMAGEPATH 2", 0, 0);
+
+INSERT INTO Users(Username, Password, FullName, Email) VALUES ("NEWUSER1", "NEWUSERPASSWORD1", "USER ONE", "newuser1@gmail.com");
+INSERT INTO Users(Username, Password, FullName, Email) VALUES ("NEWUSER2", "NEWUSERPASSWORD2", "USER TWO", "newuser2@gmail.com");
