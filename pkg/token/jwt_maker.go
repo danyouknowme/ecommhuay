@@ -11,7 +11,7 @@ func CreateToken(username string) (string, error) {
 		return "", err
 	}
 
-	payload, err := NewPayload(username, config.AccessTokenDuration)
+	payload, err := NewPayload(username)
 	if err != nil {
 		return "", err
 	}
