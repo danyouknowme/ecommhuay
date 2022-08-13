@@ -9,6 +9,11 @@ import (
 	"github.com/danyouknowme/ecommerce/pkg/database"
 	"github.com/danyouknowme/ecommerce/pkg/routes"
 	"github.com/danyouknowme/ecommerce/pkg/util"
+
+	"github.com/gofiber/fiber/v2/middleware/cors"
+
+	swagger "github.com/arsmn/fiber-swagger/v2"
+	_ "github.com/danyouknowme/ecommerce/docs"
 )
 
 func main() {
@@ -18,6 +23,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Connot load config:", err.Error())
 	}
+
+	fiberApp.Use(cors.New())
+
+	fiberApp.Get("/swagger/*", swagger.HandlerDefault)
 
 	dbDriver, dbSource := config.DBDriver, config.DBSource
 	database.ConnectDatabase(dbDriver, dbSource)
