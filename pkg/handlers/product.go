@@ -85,5 +85,43 @@ func UpdateProductAmountAPI(ctx *fiber.Ctx) error {
 }
 
 func DeleteProductByIdAPI(ctx *fiber.Ctx) error {
-	return nil
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Invalid product Id!",
+		})
+	}
+
+	log.Printf("delete: /api/auth/v1/products/%d", id)
+
+	var req dbmodels.GetUserRequest
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	user, err := dbmodels.GetUser(req.Username)
+	if err != nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	if !user.IsAdmin {
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+			"message": "you are not authorized to delete the product",
+		})
+	}
+
+	err = dbmodels.DeleteProductById(id)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Delete the product successfully!",
+	})
 }

@@ -16,7 +16,7 @@ func SetupRouter(app *fiber.App, secretKey string) {
 	api.Patch("/products/:id", handlers.UpdateProductAmountAPI)
 	authRoutes.Delete("/products/:id", handlers.DeleteProductByIdAPI)
 
-	authRoutes.Get("/users/:username", handlers.GetUserAPI)
+	authRoutes.Get("/users", handlers.GetUserAPI)
 	api.Post("/users/register", handlers.RegisterAPI)
 	api.Post("/users/login", handlers.LoginAPI)
 }
