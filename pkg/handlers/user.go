@@ -7,12 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type UserResponse struct {
-	Username string `json:"username"`
-	FullName string `json:"full_name"`
-	Email    string `json:"email"`
-}
-
 func RegisterAPI(ctx *fiber.Ctx) error {
 	var req dbmodels.User
 	if err := ctx.BodyParser(&req); err != nil {
@@ -30,7 +24,7 @@ func RegisterAPI(ctx *fiber.Ctx) error {
 		})
 	}
 
-	userResponse := UserResponse{
+	userResponse := dbmodels.UserResponse{
 		Username: req.Username,
 		FullName: req.FullName,
 		Email:    req.Email,
@@ -62,18 +56,23 @@ func LoginAPI(ctx *fiber.Ctx) error {
 }
 
 func GetUserAPI(ctx *fiber.Ctx) error {
-	username := ctx.Params("username")
+	var req dbmodels.GetUserRequest
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
-	log.Printf("get: /api/auth/v1/users/%s", username)
+	log.Printf("get: /api/auth/v1/users/%s", req.Username)
 
-	user, err := dbmodels.GetUser(username)
+	user, err := dbmodels.GetUser(req.Username)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	userResponse := UserResponse{
+	userResponse := dbmodels.UserResponse{
 		Username: user.Username,
 		FullName: user.FullName,
 		Email:    user.Email,

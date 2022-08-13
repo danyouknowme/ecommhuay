@@ -30,6 +30,16 @@ type LoginResponse struct {
 	Token    string `json:"token"`
 }
 
+type UserResponse struct {
+	Username string `json:"username"`
+	FullName string `json:"full_name"`
+	Email    string `json:"email"`
+}
+
+type GetUserRequest struct {
+	Username string `json:"username"`
+}
+
 func Register(user User) error {
 	db := database.DB
 
