@@ -22,7 +22,7 @@ func main() {
 	dbDriver, dbSource := config.DBDriver, config.DBSource
 	database.ConnectDatabase(dbDriver, dbSource)
 
-	routes.SetupRouter(fiberApp)
+	routes.SetupRouter(fiberApp, config.TokenSymmetricKey)
 
 	port := config.Port
 	log.Printf("Server starting at port %s.", port)
