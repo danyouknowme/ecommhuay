@@ -10,14 +10,16 @@ import (
 func RegisterAPI(ctx *fiber.Ctx) error {
 	var newUser dbmodels.User
 	if err := ctx.BodyParser(&newUser); err != nil {
-		return err
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
 	log.Printf("post: /api/v1/users/register")
 
 	err := dbmodels.Register(newUser)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
@@ -30,7 +32,7 @@ func RegisterAPI(ctx *fiber.Ctx) error {
 func LoginAPI(ctx *fiber.Ctx) error {
 	var req dbmodels.LoginRequest
 	if err := ctx.BodyParser(&req); err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
@@ -38,21 +40,10 @@ func LoginAPI(ctx *fiber.Ctx) error {
 	log.Printf("post: /api/v1/users/login")
 	user, err := dbmodels.Login(req.Username, req.Password)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(user)
-}
-
-func GetUserAPI(ctx *fiber.Ctx) error {
-	user, err := dbmodels.GetUser("dannyisadmin")
-	if err != nil {
-		return ctx.JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
-
-	return ctx.JSON(user)
+	return ctx.Status(fiber.StatusOK).JSON(user)
 }

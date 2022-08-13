@@ -12,19 +12,19 @@ func GetAllProductsAPI(ctx *fiber.Ctx) error {
 
 	products, err := dbmodels.GetAllProducts()
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(products)
+	return ctx.Status(fiber.StatusOK).JSON(products)
 }
 
 func GetProductByIdAPI(ctx *fiber.Ctx) error {
 	id, err := ctx.ParamsInt("id")
 	if err != nil {
-		return ctx.JSON(fiber.Map{
-			"message": "Invalid product Id!",
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
 		})
 	}
 
@@ -32,30 +32,32 @@ func GetProductByIdAPI(ctx *fiber.Ctx) error {
 
 	product, err := dbmodels.GetProductById(id)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(product)
+	return ctx.Status(fiber.StatusOK).JSON(product)
 }
 
 func AddNewProductAPI(ctx *fiber.Ctx) error {
 	var req dbmodels.Product
 	if err := ctx.BodyParser(&req); err != nil {
-		return err
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
 	log.Printf("post: /api/v1/products")
 
 	err := dbmodels.AddNewProduct(req)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Add the new product successfully!",
 	})
 }
@@ -63,7 +65,7 @@ func AddNewProductAPI(ctx *fiber.Ctx) error {
 func UpdateProductAmountAPI(ctx *fiber.Ctx) error {
 	id, err := ctx.ParamsInt("id")
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Invalid product Id!",
 		})
 	}
@@ -72,12 +74,16 @@ func UpdateProductAmountAPI(ctx *fiber.Ctx) error {
 
 	err = dbmodels.UpdateProductAmount(id)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Update amount product successfully!",
 	})
+}
+
+func DeleteProductByIdAPI(ctx *fiber.Ctx) error {
+	return nil
 }
