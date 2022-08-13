@@ -82,3 +82,21 @@ func UpdateProductAmount(id int) error {
 
 	return nil
 }
+
+func DeleteProductById(id int) error {
+	db := database.DB
+
+	statementDelete, err := db.Prepare("DELETE FROM Products WHERE Id = ?")
+	if err != nil {
+		return err
+	}
+
+	defer statementDelete.Close()
+
+	_, err = statementDelete.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
