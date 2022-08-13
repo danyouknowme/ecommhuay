@@ -8,15 +8,18 @@ import (
 
 func SetupRouter(app *fiber.App, secretKey string) {
 	api := app.Group("/api/v1")
-	authRoutes := app.Group("/api/auth/v1").Use(token.AuthRequired())
 
 	api.Get("/products", handlers.GetAllProductsAPI)
 	api.Get("/products/:id", handlers.GetProductByIdAPI)
 	api.Post("/products", handlers.AddNewProductAPI)
 	api.Patch("/products/:id", handlers.UpdateProductAmountAPI)
-	authRoutes.Delete("/products/:id", handlers.DeleteProductByIdAPI)
 
-	authRoutes.Get("/users", handlers.GetUserAPI)
 	api.Post("/users/register", handlers.RegisterAPI)
 	api.Post("/users/login", handlers.LoginAPI)
+
+	api.Use(token.AuthRequired())
+
+	api.Delete("/products/:id", handlers.DeleteProductByIdAPI)
+	api.Get("/users", handlers.GetUserAPI)
+
 }
