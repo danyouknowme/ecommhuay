@@ -5,6 +5,8 @@ USE ecommerce;
 
 DROP TABLE IF EXISTS Products;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Carts;
+DROP TABLE IF EXISTS ProductInCart;
 
 CREATE TABLE Products (
 	Id INT NOT NULL AUTO_INCREMENT,
@@ -27,8 +29,38 @@ CREATE TABLE Users (
 	PRIMARY KEY (Id)
 );
 
+CREATE TABLE Carts (
+	Id INT NOT NULL AUTO_INCREMENT,
+	UserId INT NOT NULL,
+	CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(Id),
+	
+	INDEX (UserId),
+	
+    FOREIGN KEY (UserId) REFERENCES Users(Id)
+);
+
+CREATE TABLE ProductInCart (
+	Id INT NOT NULL AUTO_INCREMENT,
+	CartId INT,
+	ProductId INT,
+	Quantity INT,
+	PRIMARY KEY(Id),
+	
+	INDEX (CartId),
+	INDEX (ProductId),
+    
+    FOREIGN KEY (CartId) REFERENCES Carts(Id),
+    FOREIGN KEY (ProductId) REFERENCES Products(Id)
+);
+
 INSERT INTO Products(Title, Description, ImagePath, Price, Amount) VALUES ("NEW TITLE 1", "NEW DESCRIPTION 1", "NEW IMAGEPATH 1", 0, 0);
 INSERT INTO Products(Title, Description, ImagePath, Price, Amount) VALUES ("NEW TITLE 2", "NEW DESCRIPTION 2", "NEW IMAGEPATH 2", 0, 0);
 
 INSERT INTO Users(Username, Password, FullName, Email) VALUES ("NEWUSER1", "NEWUSERPASSWORD1", "USER ONE", "newuser1@gmail.com");
 INSERT INTO Users(Username, Password, FullName, Email) VALUES ("NEWUSER2", "NEWUSERPASSWORD2", "USER TWO", "newuser2@gmail.com");
+
+INSERT INTO Carts(UserId) VALUES (1);
+
+INSERT INTO ProductInCart(CartId, ProductId, Quantity) VALUES (1, 1, 3);
+INSERT INTO ProductInCart(CartId, ProductId, Quantity) VALUES (1, 2, 6);
