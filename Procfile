@@ -1,1 +1,1 @@
-web: bin/ecommerce-api
+web: ecommerce-api
