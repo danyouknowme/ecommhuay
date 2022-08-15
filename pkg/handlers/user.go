@@ -63,7 +63,7 @@ func GetUserAPI(ctx *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("get: /api/auth/v1/users/%s", req.Username)
+	log.Printf("get: /api/v1/users")
 
 	user, err := dbmodels.GetUser(req.Username)
 	if err != nil {
