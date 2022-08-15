@@ -6,7 +6,14 @@ import (
 )
 
 func AddOrUpdateProductInCartAPI(ctx *fiber.Ctx) error {
-	err := dbmodels.AddOrUpdateProductInCart("dannyisadmin", 3, false)
+	var req dbmodels.ProductInCartRequest
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	err := dbmodels.AddOrUpdateProductInCart(req.Username, req.ProductId, req.IsAddedQuantity)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
