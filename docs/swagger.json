@@ -1,76 +1,621 @@
 {
-    "basePath": "/api/v1",
-    "consumes": [
-        "application/json"
-    ],
-    "info": {
-        "license": {
-            "name": "ISC"
-        },
-        "title": "Ecommerce Api docs",
-        "version": "1.0"
-    },
-    "paths": {
-        "/products": {
-            "get": {
-                "operationId": "getAllProducts",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Response Status OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Product"
-                            }
-                        }
-                    }
-                },
-                "description": "Get the list of products in the store"
-            }
-        }
-    },
-    "produces": [
-        "application/json"
-    ],
-    "swagger": "2.0",
-    "securityDefinitions": {},
-    "host": "localhost:5050",
-    "definitions": {
-        "Product": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "Id of the product",
-                    "type": "integer"
-                },
-                "title": {
-                    "description": "The name of the product",
-                    "type": "string"
-                },
-                "description": {
-                    "description": "The description of the product",
-                    "type": "string"
-                },
-                "imagePath": {
-                    "description": "Link to represent the image of the product",
-                    "type": "string"
-                },
-                "category": {
-                    "description": "The category of the product",
-                    "type": "string"
-                },
-                "price": {
-                    "description": "The price of the product",
-                    "type": "number"
-                },
-                "amount": {
-                    "description": "line of talui.",
-                    "type": "integer"
-                }
-            }
-        }
-    }
+	"basePath": "/api/v1",
+	"consumes": [
+		"application/json"
+	],
+	"info": {
+		"license": {
+			"name": "ISC"
+		},
+		"title": "Ecommerce Api docs",
+		"version": "1.0"
+	},
+	"paths": {
+		"/products": {
+			"get": {
+				"operationId": "getAllProducts",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"products"
+				],
+				"responses": {
+					"200": {
+						"description": "Response Status OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Product"
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Get the list of products in the store"
+			},
+			"post": {
+				"operationId": "createNewProduct",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"products"
+				],
+				"parameters": [
+					{
+						"name": "Product",
+						"description": "Product data to be created",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/Product"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Create a new product into store"
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"operationId": "getProductById",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"products"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id of the product",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Product"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Get the product by desired id in the store"
+			},
+			"patch": {
+				"operationId": "updateProductAmountById",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"products"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id of the product",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Update the amount of product by desired id in the store"
+			},
+			"delete": {
+				"operationId": "deleteProductById",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"products"
+				],
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id of the product",
+						"required": true,
+						"type": "integer"
+					},
+					{
+						"name": "username",
+						"in": "body",
+						"description": "username of the user",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UsernameRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/AuthResponse"
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"schema": {
+							"$ref": "#/definitions/AuthResponse"
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Delete the product by desired id in the store (Required Admin)"
+			}
+		},
+		"/users/{username}": {
+			"get": {
+				"operationId": "getUser",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"users"
+				],
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"description": "username of the user",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UsernameRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response Status OK",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/AuthResponse"
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"schema": {
+							"$ref": "#/definitions/AuthResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Get the data of user"
+			}
+		},
+		"/users/register": {
+			"post": {
+				"operationId": "register",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"users"
+				],
+				"parameters": [
+					{
+						"name": "User",
+						"description": "User data to be created",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/RegisterRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/RegisterResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Create a new user"
+			}
+		},
+		"/users/login": {
+			"post": {
+				"operationId": "login",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"users"
+				],
+				"parameters": [
+					{
+						"name": "User",
+						"description": "User data to be created",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/LoginRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/LoginResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "User login"
+			}
+		},
+		"/carts": {
+			"post": {
+				"operationId": "addOrUpdateProductInCart",
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"carts"
+				],
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "ProductInCart",
+						"description": "Product data to be add to cart",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ProductInCartRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"$ref": "#/definitions/MessageResponse"
+						}
+					}
+				},
+				"description": "Add or update product in cart of user"
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"ApiKeyAuth": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header"
+		}
+	},
+	"host": "localhost:5050",
+	"definitions": {
+		"Product": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"description": "Id of the product",
+					"type": "integer"
+				},
+				"title": {
+					"description": "The name of the product",
+					"type": "string"
+				},
+				"description": {
+					"description": "The description of the product",
+					"type": "string"
+				},
+				"imagePath": {
+					"description": "Link to represent the image of the product",
+					"type": "string"
+				},
+				"category": {
+					"description": "The category of the product",
+					"type": "string"
+				},
+				"price": {
+					"description": "The price of the product",
+					"type": "number"
+				},
+				"amount": {
+					"description": "The remaining amount of the product",
+					"type": "integer"
+				}
+			}
+		},
+		"User": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of user",
+					"type": "string"
+				},
+				"full_name": {
+					"description": "full name of user",
+					"type": "string"
+				},
+				"email": {
+					"description": "email of user",
+					"type": "string"
+				}
+			}
+		},
+		"AuthResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"description": "data from the request",
+					"type": "string"
+				},
+				"message": {
+					"description": "message from the request",
+					"type": "string"
+				},
+				"status": {
+					"description": "status from the request",
+					"type": "string"
+				}
+			}
+		},
+		"MessageResponse": {
+			"type": "object",
+			"properties": {
+				"message": {
+					"description": "response message",
+					"type": "string"
+				}
+			}
+		},
+		"UsernameRequest": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of the user",
+					"type": "string"
+				}
+			}
+		},
+		"RegisterRequest": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of new user",
+					"type": "string"
+				},
+				"password": {
+					"description": "username of new user",
+					"type": "string"
+				},
+				"full_name": {
+					"description": "full name of new user",
+					"type": "string"
+				},
+				"email": {
+					"description": "email of new user",
+					"type": "string"
+				}
+			}
+		},
+		"RegisterResponse": {
+			"type": "object",
+			"properties": {
+				"message": {
+					"description": "response message",
+					"type": "string"
+				},
+				"user": {
+					"type": "object",
+					"properties": {
+						"username": {
+							"description": "username of registered user",
+							"type": "string"
+						},
+						"full_name": {
+							"description": "full name of registered user",
+							"type": "string"
+						},
+						"email": {
+							"description": "email of registered user",
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"LoginRequest": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of user",
+					"type": "string"
+				},
+				"password": {
+					"description": "password of user",
+					"type": "string"
+				}
+			}
+		},
+		"LoginResponse": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of logged in user",
+					"type": "string"
+				},
+				"full_name": {
+					"description": "full name of logged in user",
+					"type": "string"
+				},
+				"email": {
+					"description": "email of logged in user",
+					"type": "string"
+				},
+				"token": {
+					"description": "access token of logged in user",
+					"type": "string"
+				}
+			}
+		},
+		"ProductInCartRequest": {
+			"type": "object",
+			"properties": {
+				"username": {
+					"description": "username of logged in user",
+					"type": "string"
+				},
+				"product_id": {
+					"description": "id of the product",
+					"type": "integer"
+				},
+				"is_added_quantity": {
+					"description": "condition to check increase or decrease quantity",
+					"type": "boolean"
+				}
+			}
+		}
+	}
 }
