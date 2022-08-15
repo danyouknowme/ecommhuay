@@ -1,1 +1,1 @@
-web: ecommerce-api
+web: ecommerce
