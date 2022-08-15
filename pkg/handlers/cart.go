@@ -15,7 +15,7 @@ func AddOrUpdateProductInCartAPI(ctx *fiber.Ctx) error {
 
 	err := dbmodels.AddOrUpdateProductInCart(req.Username, req.ProductId, req.IsAddedQuantity)
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
