@@ -20,6 +20,6 @@ func SetupRouter(app *fiber.App, secretKey string) {
 	api.Use(token.AuthRequired())
 
 	api.Delete("/products/:id", handlers.DeleteProductByIdAPI)
-	api.Get("/users", handlers.GetUserAPI)
+	api.Get("/users/:username", handlers.GetUserAPI)
 	api.Post("/carts", handlers.AddOrUpdateProductInCartAPI)
 }

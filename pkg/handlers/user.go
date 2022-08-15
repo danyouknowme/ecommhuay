@@ -56,16 +56,11 @@ func LoginAPI(ctx *fiber.Ctx) error {
 }
 
 func GetUserAPI(ctx *fiber.Ctx) error {
-	var req dbmodels.GetUserRequest
-	if err := ctx.BodyParser(&req); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
+	username := ctx.Params("username")
 
 	log.Printf("get: /api/v1/users")
 
-	user, err := dbmodels.GetUser(req.Username)
+	user, err := dbmodels.GetUser(username)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
