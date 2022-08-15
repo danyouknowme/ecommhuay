@@ -36,8 +36,7 @@ CREATE TABLE Carts (
 	PRIMARY KEY(Id),
 	
 	INDEX (UserId),
-    
-    FOREIGN KEY (UserId) REFERENCES Users(Id)
+    FOREIGN KEY (UserId) REFERENCES Users(Id) ON UPDATE CASCADE
 );
 
 CREATE TABLE ProductInCart (
@@ -50,8 +49,8 @@ CREATE TABLE ProductInCart (
 	INDEX (CartId),
 	INDEX (ProductId),
     
-    FOREIGN KEY (CartId) REFERENCES Carts(Id),
-    FOREIGN KEY (ProductId) REFERENCES Products(Id)
+    FOREIGN KEY (CartId) REFERENCES Carts(Id) ON UPDATE CASCADE,
+    FOREIGN KEY (ProductId) REFERENCES Products(Id) ON UPDATE CASCADE
 );
 
 INSERT INTO Products(Title, Description, ImagePath, Category, Price, Amount) VALUES ("NEW TITLE 1", "NEW DESCRIPTION 1", "NEW IMAGEPATH 1", "NEW CATEGORY 1", 0, 0);
