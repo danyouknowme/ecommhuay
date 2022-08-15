@@ -42,20 +42,43 @@ type GetUserRequest struct {
 
 func Register(user User) error {
 	db := database.DB
+	var userId int64
 
-	statementInsert, err := db.Prepare("INSERT INTO Users (Username, Password, FullName, Email) VALUES ( ?, ?, ?, ? )")
+	statementInsertUser, err := db.Prepare(`INSERT INTO Users (
+		Username,
+		Password,
+		FullName,
+		Email
+	) VALUES( ?, ?, ?, ? )`)
 	if err != nil {
 		return err
 	}
 
-	defer statementInsert.Close()
+	defer statementInsertUser.Close()
+
+	statementInsertCart, err := db.Prepare(`INSERT INTO Carts (UserId) VALUES ( ? )`)
+	if err != nil {
+		return err
+	}
+
+	defer statementInsertCart.Close()
 
 	hashedPassword, err := util.HashPassword(user.Password)
 	if err != nil {
 		return err
 	}
 
-	_, err = statementInsert.Exec(user.Username, hashedPassword, user.FullName, user.Email)
+	res, err := statementInsertUser.Exec(user.Username, hashedPassword, user.FullName, user.Email)
+	if err != nil {
+		return err
+	}
+
+	userId, err = res.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	_, err = statementInsertCart.Exec(userId)
 	if err != nil {
 		return err
 	}
