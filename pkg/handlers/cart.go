@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/danyouknowme/ecommerce/pkg/database/dbmodels"
+	"github.com/danyouknowme/ecommhuay/pkg/database/dbmodels"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -5,15 +5,15 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/danyouknowme/ecommerce/pkg/app"
-	"github.com/danyouknowme/ecommerce/pkg/database"
-	"github.com/danyouknowme/ecommerce/pkg/routes"
-	"github.com/danyouknowme/ecommerce/pkg/util"
+	"github.com/danyouknowme/ecommhuay/pkg/app"
+	"github.com/danyouknowme/ecommhuay/pkg/database"
+	"github.com/danyouknowme/ecommhuay/pkg/routes"
+	"github.com/danyouknowme/ecommhuay/pkg/util"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	swagger "github.com/arsmn/fiber-swagger/v2"
-	_ "github.com/danyouknowme/ecommerce/docs"
+	_ "github.com/danyouknowme/ecommhuay/docs"
 )
 
 func main() {

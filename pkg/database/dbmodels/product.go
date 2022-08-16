@@ -1,7 +1,7 @@
 package dbmodels
 
 import (
-	"github.com/danyouknowme/ecommerce/pkg/database"
+	"github.com/danyouknowme/ecommhuay/pkg/database"
 )
 
 type Product struct {

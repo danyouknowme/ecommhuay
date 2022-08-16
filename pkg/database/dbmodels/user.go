@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/danyouknowme/ecommerce/pkg/database"
-	"github.com/danyouknowme/ecommerce/pkg/token"
-	"github.com/danyouknowme/ecommerce/pkg/util"
+	"github.com/danyouknowme/ecommhuay/pkg/database"
+	"github.com/danyouknowme/ecommhuay/pkg/token"
+	"github.com/danyouknowme/ecommhuay/pkg/util"
 )
 
 type User struct {

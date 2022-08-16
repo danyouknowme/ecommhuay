@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/danyouknowme/ecommerce/pkg/handlers"
-	"github.com/danyouknowme/ecommerce/pkg/token"
+	"github.com/danyouknowme/ecommhuay/pkg/handlers"
+	"github.com/danyouknowme/ecommhuay/pkg/token"
 	"github.com/gofiber/fiber/v2"
 )
 

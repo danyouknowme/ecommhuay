@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/danyouknowme/ecommerce/pkg/database"
+	"github.com/danyouknowme/ecommhuay/pkg/database"
 )
 
 type Cart struct {

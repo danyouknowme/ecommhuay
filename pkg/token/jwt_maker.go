@@ -1,7 +1,7 @@
 package token
 
 import (
-	"github.com/danyouknowme/ecommerce/pkg/util"
+	"github.com/danyouknowme/ecommhuay/pkg/util"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
