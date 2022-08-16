@@ -445,7 +445,10 @@ const docTemplate = `{
 			"in": "header"
 		}
 	},
-	"host": "localhost:5050",
+	"host": "ecommhuay.herokuapp.com",
+	"schemes": [
+		"https"
+	],
 	"definitions": {
 		"Product": {
 			"type": "object",
@@ -645,11 +648,11 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:5050",
-	BasePath:    "/",
+	Host:        "ecommhuay.herokuapp.com/",
+	BasePath:    "/api/v1",
 	Schemes:     []string{},
-	Title:       "Ecommerce Api docs",
-	Description: "This is ecommerce api documentation",
+	Title:       "Ecommhuay Api docs",
+	Description: "This is ecommhuay api documentation",
 }
 
 type s struct{}

@@ -280,7 +280,9 @@ securityDefinitions:
     type: apiKey
     name: Authorization
     in: header
-host: localhost:5050
+host: ecommhuay.herokuapp.com
+schemes:
+- https
 definitions:
   Product:
     type: object
