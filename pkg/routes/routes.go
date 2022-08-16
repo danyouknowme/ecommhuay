@@ -7,6 +7,8 @@ import (
 )
 
 func SetupRouter(app *fiber.App, secretKey string) {
+	app.Get("/", handlers.WelcomeAPI)
+
 	api := app.Group("/api/v1")
 
 	api.Get("/products", handlers.GetAllProductsAPI)
