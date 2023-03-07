@@ -6,4 +6,5 @@
 [![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://ecommhuay.herokuapp.com/swagger/index.html)
 
 <h2>User Interface</h2>
-[UI](https://github.com/bounkbu/kurester-mobile)
+
+[UI Repository](https://github.com/bounkbu/kurester-mobile)
